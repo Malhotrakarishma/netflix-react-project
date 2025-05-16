@@ -72,7 +72,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 # features need to build for netflix gpt app
 1. login/signup
-2. sigin/signup form
+2. sigin/signup form -validation of form -useRef Hooks
 3. Redirect to browse page
 4. browse after authentication
 5. header
@@ -81,4 +81,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 8. title & description of series
 9. below movie suggestions -list of movie/series
 10. we need to integrate netflix gpt in searchbar and need to get movie suggestions
+
+
+# firebase deployed URL : https://netflixgpt-4c9b0.web.app/
 

@@ -2,12 +2,14 @@ import React, { useRef, useState } from 'react'
 import Header from './Header'
 import { checkValidData } from '../utils/validate';
 import { auth} from '../utils/firebase';
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
 
 
 const Login=()=> {
   const[isSigninForm ,setsigninform]=useState(true);
+  const navigate = useNavigate();
   const[errorMessage,setErrorMessage] = useState();
   const email = useRef(null);
   const password = useRef(null);
@@ -15,50 +17,43 @@ const Login=()=> {
   const togglesigunup=()=> {
    setsigninform(!isSigninForm)
   }
-  const handleButtonClick=()=> {
-   // validate the form data
-   const message= checkValidData (email.current.value, password.current.value)
-    {
+  const handleButtonClick = () => {
+  const emailVal = email.current?.value;
+  const passwordVal = password.current?.value;
+  const nameVal = fname.current?.value;
 
-       setErrorMessage(message);
-      
-   }
-   if(message) return;
-   // if no error, proceed with the sign in or sign up
+  const message = checkValidData(emailVal, passwordVal);
+  setErrorMessage(message);
+  if (message) return;
+
+  if (!isSigninForm) {
+    // Sign up
+    createUserWithEmailAndPassword(auth, emailVal, passwordVal)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        return updateProfile(user, {
+          displayName: nameVal,
+          photoURL: "https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png",
+        });
+      })
+      .then(() => {
    
- if(!isSigninForm)
- {
-  createUserWithEmailAndPassword(auth, email.current.value, password.current.value,fname.current.value)
-
-  .then((userCredential) => {
-    // Signed up 
-    const user = userCredential.user;
-    // ...
-    console.log(user);
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // ..
-    setErrorMessage(errorCode+ "-" + errorMessage)
-  });
- }
-else {
-  signInWithEmailAndPassword(auth, email.current.value, password.current.value)
-  .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    // ...
-    console.log(user);
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-     setErrorMessage(errorCode+ "-" + errorMessage)
-  });
-
-}
+      })
+      .catch((error) => {
+        setErrorMessage(error.code + " - " + error.message);
+      });
+  } else {
+    // Sign in
+    signInWithEmailAndPassword(auth, emailVal, passwordVal)
+      .then((userCredential) => {
+    
+      })
+      .catch((error) => {
+        setErrorMessage(error.code + " - " + error.message);
+      });
   }
+};
+
   return (
     <div className="relative h-screen bg-cover bg-center"
       style={{

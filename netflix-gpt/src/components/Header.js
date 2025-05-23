@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { useDispatch } from 'react-redux';
 import { addUser, removeUser } from '../utils/userSlice';
+import { Logo,USER_AVTAR } from '../utils/constant';
+
 
 function Header() {
     const navigate = useNavigate();
@@ -59,7 +61,7 @@ function Header() {
         {/* Logo */}
         <img
           className="w-52 drop-shadow-lg"
-          src="https://help.nflxext.com/helpcenter/OneTrust/oneTrust_production/consent/87b6a5c0-0104-4e96-a291-092c11350111/01938dc4-59b3-7bbc-b635-c4131030e85f/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
+          src={Logo}
           alt="Netflix Logo"
         />
 
@@ -70,7 +72,7 @@ function Header() {
           <img
             alt="User Avatar"
             className="w-10 h-10 rounded-full"
-            src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
+            src={USER_AVTAR}
           />
         </div>
       </div>

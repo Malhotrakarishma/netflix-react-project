@@ -5,6 +5,7 @@ import { auth} from '../utils/firebase';
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
+import {USER_AVTAR} from '../utils/constant'
 
 
 const Login=()=> {
@@ -33,7 +34,7 @@ const Login=()=> {
         const user = userCredential.user;
         return updateProfile(user, {
           displayName: nameVal,
-          photoURL: "https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png",
+          photoURL: {USER_AVTAR}
         });
       })
       .then(() => {
